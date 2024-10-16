@@ -1,0 +1,12 @@
+name: new-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas
+  - duckdb=1.1.1
+  - pip
+
+  - pip:
+      - yfinance==0.2.18
