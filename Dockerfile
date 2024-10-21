@@ -29,4 +29,21 @@ EXPOSE 8080
 
 # Run the application with Functions Framework
 # CMD ["functions-framework", "--target=task", "--port=8080"]
-CMD ["functions-framework", "--source=daily_update.py", "--target=daily_update", "--port=8080"]
+# CMD ["functions-framework", "--source=functions/schema-setup/main.py", "--target=task", "--port=8080"]
+# CMD ["functions-framework", "--source=flow/daily_update.py", "--target=daily_update", "--port=8080"]
+
+# Dockerfile for schema-setup
+CMD ["functions-framework", "--source=functions/schema-setup/main.py", "--target=schema_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy schema-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for extract
+# CMD ["functions-framework", "--source=functions/extract-rss/main.py", "--target=extract_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy extract-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for transform
+# CMD ["functions-framework", "--source=functions/parse-rss/main.py", "--target=transform_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy transform-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for load
+# CMD ["functions-framework", "--source=functions/load-rss/main.py", "--target=load_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy load-service --image gcr.io/ba882-rgk/my-container --platform managed
