@@ -16,7 +16,8 @@ SHELL ["conda", "run", "-n", "new-env", "/bin/bash", "-c"]
 
 # Install google-cloud-secret-manager from the .tar file and functions-framework using pip
 RUN pip install /app/google_cloud_secret_manager-2.20.2.tar \
-    && pip install functions-framework
+    && pip install functions-framework \
+    && pip install prefect
 
 # Ensure the environment is activated at runtime (fixed format)
 ENV PATH="/opt/conda/envs/new-env/bin:$PATH"
@@ -49,14 +50,50 @@ EXPOSE 8080
 
 # Dockerfile for prefect flow daily update
 # Run the Prefect flow deployment
-CMD ["python", "flow/deploy_flow.py"]
-# to deploy, use this command: 
-# gcloud run deploy daily-etl-service \
-# --image gcr.io/ba882-rgk/my-container \
-# --platform managed \
-# --region us-central1
+# CMD ["python", "flow/deploy_flow.py"]
 
-# Create the Scheduler Job with the Correct URL: After deploying the service, get its URL by running
-gcloud run services describe daily-etl-service --platform managed --region us-central1 --format 'value(status.url)'
+# to deploy, use this command *replace the [YOUR-ACCOUNT-ID] and [YOUR-WORKSPACE-ID]: 
+# gcloud beta run jobs create daily-etl-job \
+#   --image gcr.io/ba882-rgk/my-container \
+#   --region us-central1 \
+#   --set-secrets="PREFECT_API_KEY=prefect-api-key:latest" \
+#   --set-env-vars="PREFECT_API_URL=https://api.prefect.cloud/api/accounts/[YOUR-ACCOUNT-ID]/workspaces/[YOUR-WORKSPACE-ID]" \
+#   --memory 1Gi \
+#   --command python \
+#   --args "flow/deploy_flow.py"
 
+# to update the jobs deployed (already exist), use this command: 
+# gcloud beta run jobs update daily-etl-job \
+#   --image gcr.io/ba882-rgk/my-container \
+#   --region us-central1 \
+#   --set-secrets="PREFECT_API_KEY=prefect-api-key:latest" \
+#   --set-env-vars="PREFECT_API_URL=https://api.prefect.cloud/api/accounts/fbd3de01-88a1-49f3-be1e-3fc60e32454d/workspaces/55df536c-cf2b-41eb-860b-d2d43d0b63c8" \
+#   --memory 1Gi \
+#   --command python \
+#   --args "flow/deploy_flow.py"
 
+# Then, set up the Cloud Scheduler to run it automatically daily at 6 PM:
+# gcloud scheduler jobs create http daily-etl-scheduler \
+#   --schedule="0 18 * * *" \
+#   --time-zone="America/New_York" \
+#   --uri="https://us-central1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/ba882-rgk/jobs/daily-etl-job:run" \
+#   --http-method POST \
+#   --location us-central1 \
+#   --oauth-service-account-email="service1@ba882-rgk.iam.gserviceaccount.com"
+
+# PREFECT
+# fbd3de01-88a1-49f3-be1e-3fc60e32454d = account id
+# 55df536c-cf2b-41eb-860b-d2d43d0b63c8 = workspace id
+# set the link for prefect on terminal: prefect config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/fbd3de01-88a1-49f3-be1e-3fc60e32454d/workspaces/55df536c-cf2b-41eb-860b-d2d43d0b63c8"
+# API key: pnu_JbhH0OYfUZkeLnnYpdXXll5YD95CK22kyb66
+# command: prefect cloud login -k pnu_JbhH0OYfUZkeLnnYpdXXll5YD95CK22kyb66
+# or: export PREFECT_API_KEY="pnu_JbhH0OYfUZkeLnnYpdXXll5YD95CK22kyb66"
+# check the work pool: prefect work-pool ls
+
+# to trigger manually the scheduler: 
+# 1. First, run the Cloud Run job (if you haven't already or if you made changes):
+# command: gcloud beta run jobs execute daily-etl-job
+# 2. Then, run the actual ETL:
+# command: prefect deployment run 'stock-etl-flow/daily-stock-etl'
+# 3. check the status in the Prefect UI using the URL:
+# link: https://app.prefect.cloud/account/fbd3de01-88a1-49f3-be1e-3fc60e32454d/workspace/55df536c-cf2b-41eb-860b-d2d43d0b63c8/runs/flow-run/7ae8ec35-10c8-4962-bc25-e537381084b0

@@ -83,13 +83,6 @@ def model1_task(request):
     with GCSFileSystem().open(GCS, 'wb') as f:
         joblib.dump(pipeline, f)
   
-    # return_data = {
-    #     'r2': r2, 
-    #     'mae': mae, 
-    #     'mape': mape, 
-    #     "model_path": GCS
-    # }
-
     plt.figure(figsize=(14,7))
     plt.plot(results['Actual'], label='Actual')
     plt.plot(results['Predicted'], label='Predicted')
