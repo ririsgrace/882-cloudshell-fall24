@@ -86,6 +86,8 @@ db = 'stocks'
 schema = 'stocks_schema'
 db_schema = f"{db}.{schema}"
 
+tickers = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA']
+
 # GCP Cloud Functions HTTP trigger
 @functions_framework.http
 def health_check(request):
@@ -132,9 +134,33 @@ def schema_task(request):
         """
 
         md.sql(table_create_sql)
+        # md.sql(f"DESCRIBE {db_schema}.{tbl_name};").show()
+        
+        # Create individual tables for each ticker
+        for ticker in tickers:
+            ticker_table_name = f"{ticker.lower()}_stocks"  # Table name for each ticker
+            ticker_table_create_sql = f"""
+            CREATE TABLE IF NOT EXISTS {db_schema}.{ticker_table_name} (
+                Date DATE,              -- Date of the stock record
+                Open FLOAT,             -- Open Price
+                High FLOAT,             -- Highest Price
+                Low FLOAT,              -- Lowest Price
+                Close FLOAT,            -- Closing Price
+                Adj_Close FLOAT,        -- Adjusted Close Price
+                Volume BIGINT,          -- Trading Volume
+                Ticker VARCHAR,         -- Stock Ticker Symbol
+                PRIMARY KEY (Ticker, Date)  -- Composite primary key on Ticker and Date
+            );
+            """
+            md.sql(ticker_table_create_sql)
+        
+        # Verify table creation
         md.sql(f"DESCRIBE {db_schema}.{tbl_name};").show()
         
+        for ticker in tickers:
+            md.sql(f"DESCRIBE {db_schema}.{ticker.lower()}_stocks;").show
+            
         return "Schema setup and table creation successful!", 200
-    
+
     except Exception as e:
         return f"An error occurred: {str(e)}", 500

@@ -27,11 +27,6 @@ COPY . /app
 # Expose port 8080
 EXPOSE 8080
 
-# Run the application with Functions Framework
-# CMD ["functions-framework", "--target=task", "--port=8080"]
-# CMD ["functions-framework", "--source=functions/schema-setup/main.py", "--target=task", "--port=8080"]
-# CMD ["functions-framework", "--source=flow/daily_update.py", "--target=daily_update", "--port=8080"]
-
 # Dockerfile for schema-setup
 # CMD ["functions-framework", "--source=functions/schema-setup/main.py", "--target=schema_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy schema-service --image gcr.io/ba882-rgk/my-container --platform managed
@@ -41,9 +36,27 @@ EXPOSE 8080
 # to deploy, use this command: gcloud run deploy extract-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for transform
-CMD ["functions-framework", "--source=functions/parse-rss/main.py", "--target=transform_task", "--port=8080"]
+# CMD ["functions-framework", "--source=functions/parse-rss/main.py", "--target=transform_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy transform-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for load
 # CMD ["functions-framework", "--source=functions/load-rss/main.py", "--target=load_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy load-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for model-1
+# CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=model1_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy model1-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for prefect flow daily update
+# Run the Prefect flow deployment
+CMD ["python", "flow/deploy_flow.py"]
+# to deploy, use this command: 
+# gcloud run deploy daily-etl-service \
+# --image gcr.io/ba882-rgk/my-container \
+# --platform managed \
+# --region us-central1
+
+# Create the Scheduler Job with the Correct URL: After deploying the service, get its URL by running
+gcloud run services describe daily-etl-service --platform managed --region us-central1 --format 'value(status.url)'
+
+

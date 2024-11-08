@@ -38,7 +38,7 @@ def extract_task(request):
             print(f"Last available date for {ticker}: {last_date}")
             
             if last_date is None:
-                last_date = "2024-09-01"  # Default start date if no data exists
+                last_date = "2024-01-01"  # Default start date if no data exists
             
             # Download the stock data starting from the last available date
             try:

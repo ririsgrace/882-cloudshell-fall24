@@ -8,7 +8,7 @@ if __name__ == "__main__":
         name="daily-stock-etl",
         work_pool_name="rgk-pool1",  # Replace with your work pool name
         job_variables={"env": {}, "pip_packages": ["pandas", "requests"]},
-        #cron="0 18 * * *",  
+        # cron="0 18 * * *",  
         cron="0 22 * * *", # This schedules the flow to run daily at 6 PM
         tags=["prod"],
         description="ETL pipeline to download stock data daily from Yahoo Finance and process it.",

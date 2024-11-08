@@ -7,6 +7,15 @@ dependencies:
   - pandas
   - duckdb=1.1.1
   - pip
+  - google-cloud-storage
+  - joblib
+  - gcsfs
+  - scikit-learn
+  - matplotlib
+  - pyarrow
+  - fastparquet
+  - prefect
+
 
   - pip:
       - yfinance==0.2.18

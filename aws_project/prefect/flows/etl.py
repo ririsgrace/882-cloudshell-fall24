@@ -11,7 +11,6 @@ def invoke_gcf(url:str, payload:dict):
     response.raise_for_status()
     return response.json()
 
-
 @task(retries=2)
 def schema_setup():
     """Setup the stage schema"""

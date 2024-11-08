@@ -48,6 +48,15 @@ def load_task(payload):
     resp = invoke_docker_function(url, payload=payload)
     return resp
 
+@task(retries=2)
+def model1_task():
+    """Create the model of stock data"""
+    # Docker-based function endpoint URL for model creation
+    url = "https://model1-service-807843960855.us-central1.run.app/"  # Replace this if running elsewhere
+    payload = {}  # Define the payload (empty dictionary for example, but you may need to add data here)
+    resp = invoke_docker_function(url, payload)  # Pass the payload as argument
+    return resp
+
 # Prefect Flow
 @flow(name="stock-etl-flow", log_prints=True)
 def etl_flow():
@@ -66,6 +75,9 @@ def etl_flow():
 
     result = load_task(transform_result)
     print("The stock data were loaded into the database")
+
+    result = model1_task()
+    print("Model was created and stored in the bucket")
 
 # the job
 if __name__ == "__main__":
