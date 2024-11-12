@@ -40,11 +40,11 @@ def model1_task(request):
     target = apple[('Adj_Close')]  # Target is Adj_Close
 
     # Step 3: Train-Test Split
-    features_train = features[:203]
-    features_test = features[203:]
+    features_train = features[-10:]
+    features_test = features[-10:]
 
-    target_train = target[:203]
-    target_test = target[203:]
+    target_train = target[-10:]
+    target_test = target[-10:]
 
     print(f"Shape of features_train: {features_train.shape}")
     print(f"Shape of features_test: {features_test.shape}")
@@ -70,7 +70,7 @@ def model1_task(request):
     print(f"Mean Squared Error: {mse}")
 
     # (Optional) Show predictions alongside actual values
-    results = pd.DataFrame({'Actual': target_test, 'Predicted': predictions})
+    results = pd.DataFrame({'Date': apple['Date'].iloc[-10:].dt.date, 'Actual': target_test, 'Predicted': predictions})
     print(results.head())
 
     # write this file to gcs
@@ -84,9 +84,10 @@ def model1_task(request):
         joblib.dump(pipeline, f)
   
     plt.figure(figsize=(14,7))
-    plt.plot(results['Actual'], label='Actual')
-    plt.plot(results['Predicted'], label='Predicted')
+    plt.plot(results['Date'], results['Actual'], label='Actual')
+    plt.plot(results['Date'], results['Predicted'], label='Predicted')
     plt.title('Actual vs Predicted Close Prices')
+    plt.xticks(rotation = 15)
     plt.xlabel('Date')
     plt.ylabel('Close Price')
     plt.legend()
