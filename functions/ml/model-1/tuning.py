@@ -139,5 +139,6 @@ def tuning_task(request):
     return {
         'mse': best_mse,
         'r2': best_r2,
+        'best_params': best_params,
         "model_path": GCS
     }
