@@ -57,6 +57,15 @@ def model1_task():
     resp = invoke_docker_function(url, payload)  # Pass the payload as argument
     return resp
 
+@task(retries=2)
+def tuning_task():
+    """Perform hyperparameter tuning on the model of stock data"""
+    # Docker-based function endpoint URL for model creation
+    url = "https://model1-service-807843960855.us-central1.run.app/"  # Replace this if running elsewhere
+    payload = {}  # Define the payload (empty dictionary for example, but you may need to add data here)
+    resp = invoke_docker_function(url, payload)  # Pass the payload as argument
+    return resp
+
 # Prefect Flow
 @flow(name="stock-etl-flow", log_prints=True)
 def etl_flow():
@@ -78,6 +87,9 @@ def etl_flow():
 
     result = model1_task()
     print("Model was created and stored in the bucket")
+
+    tuning_result = tuning_task()
+    print("Model was tuned and stored in the bucket")
 
 # the job
 if __name__ == "__main__":
