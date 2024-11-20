@@ -13,9 +13,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 # settings
-project_id = 'ba882-labs'
+project_id = 'ba882-rgk'
 region_id = 'us-central1'
-secret_id = 'mother_duck'   #<---------- this is the name of the secret you created
+secret_id = 'secret2_duckdb'   #<---------- this is the name of the secret you created
 version_id = 'latest'
 vector_secret = "pinecone"
 
