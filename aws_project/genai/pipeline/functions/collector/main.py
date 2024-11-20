@@ -8,8 +8,8 @@ import datetime
 import uuid
 
 # settings
-project_id = 'ba882-labs'
-secret_id = 'mother_duck'   #<---------- this is the name of the secret you created
+project_id = 'ba882-rgk'
+secret_id = 'secret2_duckdb'   #<---------- this is the name of the secret you created
 version_id = 'latest'
 
 # db setup
