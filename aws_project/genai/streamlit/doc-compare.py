@@ -13,7 +13,7 @@ model = GenerativeModel("gemini-1.5-pro-001")
 # https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/document-understanding
 
 ############################################## project setup
-GCP_PROJECT = 'ba882-labs'
+GCP_PROJECT = 'ba882-rgk'
 GCP_REGION = "us-central1"
 
 vertexai.init(project=GCP_PROJECT, location=GCP_REGION)
