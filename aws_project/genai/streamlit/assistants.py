@@ -22,7 +22,7 @@ st.sidebar.header("Inputs")
 st.sidebar.markdown("One option is to use sidebars for inputs")
 
 ############################################## project setup
-GCP_PROJECT = 'btibert-ba882-fall24'
+GCP_PROJECT = 'ba882-rgk'
 GCP_REGION = "us-central1"
 
 vertexai.init(project=GCP_PROJECT, location=GCP_REGION)
