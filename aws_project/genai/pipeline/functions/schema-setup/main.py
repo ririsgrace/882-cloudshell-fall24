@@ -5,8 +5,8 @@ import duckdb
 from pinecone import Pinecone, ServerlessSpec
 
 # settings
-project_id = 'ba882-labs'
-secret_id = 'mother_duck'   #<---------- this is the name of the secret you created
+project_id = 'ba882-rgk'
+secret_id = 'secret2_duckdb'   #<---------- this is the name of the secret you created
 version_id = 'latest'
 vector_secret = "pinecone"
 
