@@ -4,7 +4,7 @@
 ######
 
 # setup the project
-gcloud config set project ba882-labs
+gcloud config set project ba882-rgk
 
 # schema setup
 echo "======================================================"
@@ -17,8 +17,8 @@ gcloud functions deploy genai-schema-setup \
     --trigger-http \
     --entry-point task \
     --source ./functions/schema-setup \
-    --stage-bucket labs-sandbox \
-    --service-account labs-account@ba882-labs.iam.gserviceaccount.com \
+    --stage-bucket rgk-ba882-fall24-awsblogs \
+    --service-account service1@ba882-rgk.iam.gserviceaccount.com \
     --region us-central1 \
     --allow-unauthenticated \
     --memory 512MB 
@@ -34,8 +34,8 @@ gcloud functions deploy genai-schema-collector \
     --trigger-http \
     --entry-point task \
     --source ./functions/collector \
-    --stage-bucket labs-sandbox \
-    --service-account labs-account@ba882-labs.iam.gserviceaccount.com \
+    --stage-bucket rgk-ba882-fall24-awsblogs \
+    --service-account service1@ba882-rgk.iam.gserviceaccount.com \
     --region us-central1 \
     --allow-unauthenticated \
     --memory 512MB 
@@ -51,8 +51,8 @@ gcloud functions deploy genai-schema-ingestor \
     --trigger-http \
     --entry-point task \
     --source ./functions/ingestor \
-    --stage-bucket labs-sandbox \
-    --service-account labs-account@ba882-labs.iam.gserviceaccount.com \
+    --stage-bucket rgk-ba882-fall24-awsblogs \
+    --service-account service1@ba882-rgk.iam.gserviceaccount.com \
     --region us-central1 \
     --allow-unauthenticated \
     --memory 1GB
