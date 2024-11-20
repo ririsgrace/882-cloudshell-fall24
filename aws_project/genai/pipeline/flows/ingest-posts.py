@@ -14,7 +14,7 @@ def invoke_gcf(url:str, payload:dict):
 @task(retries=2)
 def schema_setup():
     """Setup the stage schema"""
-    url = "https://us-central1-ba882-labs.cloudfunctions.net/genai-schema-setup"
+    url = "https://us-central1-ba882-rgk.cloudfunctions.net/genai-schema-setup"
     resp = invoke_gcf(url, payload={})
     return resp
 
@@ -22,7 +22,7 @@ def schema_setup():
 @task(retries=2)
 def collect():
     """Collect the posts that haven't been processed"""
-    url = "https://us-central1-ba882-labs.cloudfunctions.net/genai-schema-collector"
+    url = "https://us-central1-ba882-rgk.cloudfunctions.net/genai-schema-collector"
     resp = invoke_gcf(url, payload={})
     return resp
 
@@ -30,7 +30,7 @@ def collect():
 @task(retries=3)
 def ingest(payload):
     """For a given post id, embed the chunks to support GenAI workflows/"""
-    url = "https://us-central1-ba882-labs.cloudfunctions.net/genai-schema-ingestor"
+    url = "https://us-central1-ba882-rgk.cloudfunctions.net/genai-schema-ingestor"
     print(f"processing id: {payload.get('post_id')}")
     resp = invoke_gcf(url, payload=payload)
     return resp
