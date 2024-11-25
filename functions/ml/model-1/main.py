@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 from gcsfs import GCSFileSystem
 from google.cloud import storage
 
@@ -67,7 +67,9 @@ def model1_task(request):
     # Step 6: Evaluate the Model
     predictions = pipeline.predict(features_test)
     mse = mean_squared_error(target_test, predictions)
+    r2 = r2_score(target_test, predictions)
     print(f"Mean Squared Error: {mse}")
+    print(f"R² Score: {r2}")
 
     # (Optional) Show predictions alongside actual values
     results = pd.DataFrame({'Date': apple['Date'].iloc[-10:].dt.date, 'Actual': target_test, 'Predicted': predictions})
@@ -109,6 +111,7 @@ def model1_task(request):
     # Return evaluation metrics
     return {
         'mse': mse,
+        'r2': r2,
         "model_path": GCS
     }
 
