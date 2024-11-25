@@ -48,6 +48,10 @@ EXPOSE 8080
 # CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=model1_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy model1-service --image gcr.io/ba882-rgk/my-container --platform managed
 
+# Dockerfile for tuning
+# CMD ["functions-framework", "--source=functions/ml/tuning/main.py", "--target=tuning_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy tuning-service --image gcr.io/ba882-rgk/my-container --platform managed
+
 # Dockerfile for prefect flow daily update
 # Run the Prefect flow deployment
 # CMD ["python", "flow/deploy_flow.py"]
