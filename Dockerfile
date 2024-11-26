@@ -45,14 +45,13 @@ EXPOSE 8080
 # to deploy, use this command: gcloud run deploy load-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for model-1
-# CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=model1_task", "--port=8080"]
+CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=model1_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy model1-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for prefect flow daily update
 # Run the Prefect flow deployment
 # CMD ["python", "flow/deploy_flow.py"]
-
-# to deploy, use this command *replace the [YOUR-ACCOUNT-ID] and [YOUR-WORKSPACE-ID]: 
+# to run the job, use this command *replace the [YOUR-ACCOUNT-ID] and [YOUR-WORKSPACE-ID]: 
 # gcloud beta run jobs create daily-etl-job \
 #   --image gcr.io/ba882-rgk/my-container \
 #   --region us-central1 \
@@ -62,7 +61,7 @@ EXPOSE 8080
 #   --command python \
 #   --args "flow/deploy_flow.py"
 
-# to update the jobs deployed (already exist), use this command: 
+# to update the jobs deployed (already exist) and you want to update, use this command: 
 # gcloud beta run jobs update daily-etl-job \
 #   --image gcr.io/ba882-rgk/my-container \
 #   --region us-central1 \
@@ -71,15 +70,6 @@ EXPOSE 8080
 #   --memory 1Gi \
 #   --command python \
 #   --args "flow/deploy_flow.py"
-
-# Then, set up the Cloud Scheduler to run it automatically daily at 6 PM:
-# gcloud scheduler jobs create http daily-etl-scheduler \
-#   --schedule="0 18 * * *" \
-#   --time-zone="America/New_York" \
-#   --uri="https://us-central1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/ba882-rgk/jobs/daily-etl-job:run" \
-#   --http-method POST \
-#   --location us-central1 \
-#   --oauth-service-account-email="service1@ba882-rgk.iam.gserviceaccount.com"
 
 # PREFECT
 # fbd3de01-88a1-49f3-be1e-3fc60e32454d = account id

@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 "env": {},
                 "pip_packages": ["pandas", "requests"]
             },
-            cron="0 18 * * *",
+            cron="0 23 * * *",
             tags=["prod"],
             description="ETL pipeline to download stock data daily from Yahoo Finance and process it.",
             version="1.0.0",

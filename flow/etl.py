@@ -20,7 +20,7 @@ def invoke_docker_function(url: str, payload: dict):
 def schema_task():
     """Setup the stock schema"""
     # Docker-based function endpoint URL for schema setup
-    url = "https://schema-service-807843960855.us-central1.run.app/"  # Replace this if running elsewhere
+    url = "https://schema-service-807843960855.us-central1.run.app/"  
     resp = invoke_docker_function(url, payload={})
     return resp
 
