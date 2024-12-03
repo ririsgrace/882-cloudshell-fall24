@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 from gcsfs import GCSFileSystem
 from google.cloud import storage, secretmanager
 from datetime import datetime  
@@ -242,12 +242,21 @@ def model1_task(request):
 #     features = apple.drop(['Adj_Close', 'Ticker', 'Date'], axis=1)  # Remove Adj Close from features
 #     target = apple[('Adj_Close')]  # Target is Adj_Close
 
+<<<<<<< HEAD
 #     # Step 3: Train-Test Split
 #     features_train = features[-10:]
 #     features_test = features[-10:]
 
 #     target_train = target[-10:]
 #     target_test = target[-10:]
+=======
+    # Step 3: Train-Test Split
+    features_train = features[-10:]
+    features_test = features[-10:]
+
+    target_train = target[-10:]
+    target_test = target[-10:]
+>>>>>>> 445dd31fa0442d832fccba899edead7a093d6445
 
 #     print(f"Shape of features_train: {features_train.shape}")
 #     print(f"Shape of features_test: {features_test.shape}")
@@ -267,14 +276,16 @@ def model1_task(request):
 #     # Step 5: Train the Model
 #     pipeline.fit(features_train, target_train)
     
-#     # Step 6: Evaluate the Model
-#     predictions = pipeline.predict(features_test)
-#     mse = mean_squared_error(target_test, predictions)
-#     print(f"Mean Squared Error: {mse}")
+    # Step 6: Evaluate the Model
+    predictions = pipeline.predict(features_test)
+    mse = mean_squared_error(target_test, predictions)
+    r2 = r2_score(target_test, predictions)
+    print(f"Mean Squared Error: {mse}")
+    print(f"R² Score: {r2}")
 
-#     # (Optional) Show predictions alongside actual values
-#     results = pd.DataFrame({'Date': apple['Date'].iloc[-10:].dt.date, 'Actual': target_test, 'Predicted': predictions})
-#     print(results.head())
+    # (Optional) Show predictions alongside actual values
+    results = pd.DataFrame({'Date': apple['Date'].iloc[-10:].dt.date, 'Actual': target_test, 'Predicted': predictions})
+    print(results.head())
 
 #     # write this file to gcs
 #     GCS_BUCKET = "rgk-ba882-fall24-finance"
@@ -286,15 +297,15 @@ def model1_task(request):
 #     with GCSFileSystem().open(GCS, 'wb') as f:
 #         joblib.dump(pipeline, f)
   
-#     plt.figure(figsize=(14,7))
-#     plt.plot(results['Date'], results['Actual'], label='Actual')
-#     plt.plot(results['Date'], results['Predicted'], label='Predicted')
-#     plt.title('Actual vs Predicted Close Prices')
-#     plt.xticks(rotation = 15)
-#     plt.xlabel('Date')
-#     plt.ylabel('Close Price')
-#     plt.legend()
-#     plt.show()
+    plt.figure(figsize=(14,7))
+    plt.plot(results['Date'], results['Actual'], label='Actual')
+    plt.plot(results['Date'], results['Predicted'], label='Predicted')
+    plt.title('Actual vs Predicted Close Prices')
+    plt.xticks(rotation = 15)
+    plt.xlabel('Date')
+    plt.ylabel('Close Price')
+    plt.legend()
+    plt.show()
 
 #     # Save plot to a BytesIO object
 #     img = io.BytesIO()
@@ -443,6 +454,12 @@ def model1_task(request):
 #         'mse': mse,
 #         "model_path": GCS
 #     }
+    # Return evaluation metrics
+    return {
+        'mse': mse,
+        'r2': r2,
+        "model_path": GCS
+    }
 
     # return return_data, 200
 
