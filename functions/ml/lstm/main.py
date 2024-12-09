@@ -21,7 +21,7 @@ project_id = 'ba882-rgk'
 project_region = 'us-central1'
 
 @functions_framework.http
-def model1_task(request):
+def lstm_task(request):
     "Fit the model using a cloud function"
     try:
         GCS_PATH = "gs://rgk-ba882-fall24-finance/stocks-data/combined_stocks.csv"

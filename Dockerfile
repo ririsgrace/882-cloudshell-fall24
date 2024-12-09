@@ -49,8 +49,12 @@ EXPOSE 8080
 # to deploy, use this command: gcloud run deploy model1-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for hyper parameter tuning
-# CMD ["functions-framework", "--source=functions/ml/hyper/main.py", "--target=hyper_task", "--port=8080"]
-# to deploy, use this command: gcloud run deploy hyper-service --image gcr.io/ba882-rgk/my-container --platform managed 
+CMD ["functions-framework", "--source=functions/ml/tuning/main.py", "--target=tuning_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy tuning-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for LSTM
+CMD ["functions-framework", "--source=functions/ml/lstm/main.py", "--target=lstm_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy lstm-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for sentiment analysis
 CMD ["functions-framework", "--source=functions/ml/sentiment-analysis/main.py", "--target=sentiment_task", "--port=8080"]
