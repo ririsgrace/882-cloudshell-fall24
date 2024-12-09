@@ -33,7 +33,7 @@ EXPOSE 8080
 # to deploy, use this command: gcloud run deploy schema-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for extract
-CMD ["functions-framework", "--source=functions/extract-rss/main.py", "--target=extract_task", "--port=8080"]
+# CMD ["functions-framework", "--source=functions/extract-rss/main.py", "--target=extract_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy extract-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for transform
@@ -52,6 +52,9 @@ CMD ["functions-framework", "--source=functions/extract-rss/main.py", "--target=
 # CMD ["functions-framework", "--source=functions/ml/hyper/main.py", "--target=hyper_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy hyper-service --image gcr.io/ba882-rgk/my-container --platform managed 
 
+# Dockerfile for sentiment analysis
+CMD ["functions-framework", "--source=functions/ml/sentiment-analysis/main.py", "--target=sentiment_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy sentiment-service --image gcr.io/ba882-rgk/my-container --platform managed 
 
 # Dockerfile for prefect flow daily update
 # Run the Prefect flow deployment

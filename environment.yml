@@ -17,5 +17,7 @@ dependencies:
   - fastparquet
   - prefect
   - pip:
-      - yfinance==0.2.18
-      - fredapi
+    - transformers
+    - tensorFlow >= 2.0
+    - yfinance==0.2.18
+    - fredapi
