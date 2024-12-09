@@ -127,6 +127,9 @@ def etl_flow():
     result = model1_task()
     print("Model was created and stored in the bucket")
 
+    result = tuning_task()
+    print("Model hyperparameter was completed and stored in the bucket")
+
     result = lstm_task()
     print("LSTM Model was created and stored in the bucket")
 
