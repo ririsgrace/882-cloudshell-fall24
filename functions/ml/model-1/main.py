@@ -242,21 +242,12 @@ def model1_task(request):
 #     features = apple.drop(['Adj_Close', 'Ticker', 'Date'], axis=1)  # Remove Adj Close from features
 #     target = apple[('Adj_Close')]  # Target is Adj_Close
 
-<<<<<<< HEAD
-#     # Step 3: Train-Test Split
-#     features_train = features[-10:]
-#     features_test = features[-10:]
-
-#     target_train = target[-10:]
-#     target_test = target[-10:]
-=======
     # Step 3: Train-Test Split
     features_train = features[-10:]
     features_test = features[-10:]
 
     target_train = target[-10:]
     target_test = target[-10:]
->>>>>>> 445dd31fa0442d832fccba899edead7a093d6445
 
 #     print(f"Shape of features_train: {features_train.shape}")
 #     print(f"Shape of features_test: {features_test.shape}")

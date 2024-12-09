@@ -6,15 +6,32 @@ import json
 from prefect import flow, task
 
 def invoke_docker_function(url: str, payload: dict):
-    response = requests.post(url, json=payload)
+    # Add headers for JSON content
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    
+    # Make request with headers
+    response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
     
     # Try to decode the response as JSON
     try:
         return response.json()
     except requests.exceptions.JSONDecodeError:
-        # If the response isn't JSON, return the plain text response
+        print(f"Response was not JSON: {response.text}")
         return response.text
+
+# def invoke_docker_function(url: str, payload: dict):
+#     response = requests.post(url, json=payload)
+#     response.raise_for_status()
+    
+#     # Try to decode the response as JSON
+#     try:
+#         return response.json()
+#     except requests.exceptions.JSONDecodeError:
+#         # If the response isn't JSON, return the plain text response
+#         return response.text
 
 @task(retries=2)
 def schema_task():
@@ -32,14 +49,27 @@ def extract_task():
     resp = invoke_docker_function(url, payload={})
     return resp
 
+# @task(retries=2)
+# def transform_task(payload):
+#     """Transform the stock data"""
+#     # Docker-based function endpoint URL for transform
+#     url = "https://transform-service-807843960855.us-central1.run.app/"  # Replace this if running elsewhere
+#     resp = invoke_docker_function(url, payload=payload)
+#     return resp
+
 @task(retries=2)
 def transform_task(payload):
     """Transform the stock data"""
-    # Docker-based function endpoint URL for transform
-    url = "https://transform-service-807843960855.us-central1.run.app/"  # Replace this if running elsewhere
-    resp = invoke_docker_function(url, payload=payload)
-    return resp
-
+    try:
+        url = "https://transform-service-807843960855.us-central1.run.app/"
+        print(f"Sending payload to transform service: {payload}")
+        resp = invoke_docker_function(url, payload=payload)
+        print(f"Transform response: {resp}")
+        return resp
+    except Exception as e:
+        print(f"Error in transform task: {str(e)}")
+        raise
+    
 @task(retries=2)
 def load_task(payload):
     """Load the transformed stock data into the database"""

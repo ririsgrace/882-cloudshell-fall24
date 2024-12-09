@@ -33,7 +33,7 @@ EXPOSE 8080
 # to deploy, use this command: gcloud run deploy schema-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for extract
-# CMD ["functions-framework", "--source=functions/extract-rss/main.py", "--target=extract_task", "--port=8080"]
+CMD ["functions-framework", "--source=functions/extract-rss/main.py", "--target=extract_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy extract-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for transform
@@ -45,8 +45,13 @@ EXPOSE 8080
 # to deploy, use this command: gcloud run deploy load-service --image gcr.io/ba882-rgk/my-container --platform managed
 
 # Dockerfile for model-1
-CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=model1_task", "--port=8080"]
+# CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=model1_task", "--port=8080"]
 # to deploy, use this command: gcloud run deploy model1-service --image gcr.io/ba882-rgk/my-container --platform managed
+
+# Dockerfile for hyper parameter tuning
+# CMD ["functions-framework", "--source=functions/ml/hyper/main.py", "--target=hyper_task", "--port=8080"]
+# to deploy, use this command: gcloud run deploy hyper-service --image gcr.io/ba882-rgk/my-container --platform managed 
+
 
 # Dockerfile for prefect flow daily update
 # Run the Prefect flow deployment
@@ -87,3 +92,5 @@ CMD ["functions-framework", "--source=functions/ml/model-1/main.py", "--target=m
 # command: prefect deployment run 'stock-etl-flow/daily-stock-etl'
 # 3. check the status in the Prefect UI using the URL:
 # link: https://app.prefect.cloud/account/fbd3de01-88a1-49f3-be1e-3fc60e32454d/workspace/55df536c-cf2b-41eb-860b-d2d43d0b63c8/runs/flow-run/7ae8ec35-10c8-4962-bc25-e537381084b0
+
+# Pinecone API token: pcsk_6TbH2T_DidcVfsAYy1cuHJg3Tnjh8HzKiuAkWRqFVEWjRk4mNXJ2XVezGdAgKjNhJ3MTvY

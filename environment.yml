@@ -5,6 +5,7 @@ channels:
 dependencies:
   - python=3.9
   - pandas
+  - numpy
   - duckdb=1.1.1
   - pip
   - google-cloud-storage
@@ -15,7 +16,6 @@ dependencies:
   - pyarrow
   - fastparquet
   - prefect
-
-
   - pip:
       - yfinance==0.2.18
+      - fredapi

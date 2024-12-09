@@ -1,4 +1,3 @@
-
 # setup the project
 gcloud config set project ba882-rgk
 
