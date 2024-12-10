@@ -82,7 +82,7 @@ def fetch_data():
 def fetch_ml_predictions():
     query = """
     SELECT Date, Ticker, Actual, Predicted, roe, rmse, mape, prediction_timestamp
-    FROM `stocks.stocks_schema.predicted_stock`
+    FROM stocks.stocks_schema.predicted_stock
     ORDER BY prediction_timestamp DESC, Date DESC
     LIMIT 10
     """
