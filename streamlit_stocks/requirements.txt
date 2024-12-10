@@ -1,7 +1,8 @@
 streamlit 
 vertexai
+google-cloud
 google-cloud-secret-manager
 duckdb=1.1.1
 yfinance==0.2.18
 pandas
-python=3.9
+#python=3.9
