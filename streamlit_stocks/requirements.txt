@@ -1,0 +1,6 @@
+streamlit 
+vertexai
+secretmanager
+duckdb
+yfinance
+pandas
